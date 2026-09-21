@@ -9,38 +9,135 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RecommendationsRouteImport } from './routes/recommendations'
+import { Route as RandomRouteImport } from './routes/random'
+import { Route as PreferencesRouteImport } from './routes/preferences'
+import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FoodsFoodIdRouteImport } from './routes/foods.$foodId'
 
+const RecommendationsRoute = RecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RandomRoute = RandomRouteImport.update({
+  id: '/random',
+  path: '/random',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreferencesRoute = PreferencesRouteImport.update({
+  id: '/preferences',
+  path: '/preferences',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FoodsFoodIdRoute = FoodsFoodIdRouteImport.update({
+  id: '/foods/$foodId',
+  path: '/foods/$foodId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
+  '/preferences': typeof PreferencesRoute
+  '/random': typeof RandomRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/foods/$foodId': typeof FoodsFoodIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
+  '/preferences': typeof PreferencesRoute
+  '/random': typeof RandomRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/foods/$foodId': typeof FoodsFoodIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
+  '/preferences': typeof PreferencesRoute
+  '/random': typeof RandomRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/foods/$foodId': typeof FoodsFoodIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/favorites'
+    | '/preferences'
+    | '/random'
+    | '/recommendations'
+    | '/foods/$foodId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/favorites'
+    | '/preferences'
+    | '/random'
+    | '/recommendations'
+    | '/foods/$foodId'
+  id:
+    | '__root__'
+    | '/'
+    | '/favorites'
+    | '/preferences'
+    | '/random'
+    | '/recommendations'
+    | '/foods/$foodId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FavoritesRoute: typeof FavoritesRoute
+  PreferencesRoute: typeof PreferencesRoute
+  RandomRoute: typeof RandomRoute
+  RecommendationsRoute: typeof RecommendationsRoute
+  FoodsFoodIdRoute: typeof FoodsFoodIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/recommendations': {
+      id: '/recommendations'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof RecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/random': {
+      id: '/random'
+      path: '/random'
+      fullPath: '/random'
+      preLoaderRoute: typeof RandomRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preferences': {
+      id: '/preferences'
+      path: '/preferences'
+      fullPath: '/preferences'
+      preLoaderRoute: typeof PreferencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +145,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/foods/$foodId': {
+      id: '/foods/$foodId'
+      path: '/foods/$foodId'
+      fullPath: '/foods/$foodId'
+      preLoaderRoute: typeof FoodsFoodIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FavoritesRoute: FavoritesRoute,
+  PreferencesRoute: PreferencesRoute,
+  RandomRoute: RandomRoute,
+  RecommendationsRoute: RecommendationsRoute,
+  FoodsFoodIdRoute: FoodsFoodIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

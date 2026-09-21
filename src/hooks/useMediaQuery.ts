@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 
 /**
  * Tracks whether a CSS media query matches.
@@ -8,23 +8,9 @@ import { useState, useEffect } from 'react'
  * const isDark = useMediaQuery('(prefers-color-scheme: dark)')
  */
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState<boolean>(() => {
-    // SSR safe
-    if (typeof window === 'undefined') return false
-    return window.matchMedia(query).matches
-  })
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(query)
-    setMatches(mediaQuery.matches)
-
-    const handler = (event: MediaQueryListEvent) => setMatches(event.matches)
-    mediaQuery.addEventListener('change', handler)
-
-    return () => mediaQuery.removeEventListener('change', handler)
-  }, [query])
-
-  return matches
+  const subscribe = useCallback((onChange: () => void) => { const mediaQuery = window.matchMedia(query); mediaQuery.addEventListener('change', onChange); return () => mediaQuery.removeEventListener('change', onChange) }, [query])
+  const getSnapshot = useCallback(() => window.matchMedia(query).matches, [query])
+  return useSyncExternalStore(subscribe, getSnapshot, () => false)
 }
 
 // ─── Preset breakpoint hooks (Tailwind defaults) ───────────────────────────
