@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="What Should I Eat?">
+  <rect width="64" height="64" rx="18" fill="#f97316"/>
+  <path
+    d="M22 21c-3-3 3-5 0-9M32 21c-3-3 3-5 0-9M42 21c-3-3 3-5 0-9"
+    fill="none"
+    stroke="#fff7ed"
+    stroke-width="3.5"
+    stroke-linecap="round"
+  />
+  <path
+    d="M14 28h36c0 12-7.8 21-18 21s-18-9-18-21Z"
+    fill="#fff"
+  />
+  <path
+    d="M19 34h26"
+    fill="none"
+    stroke="#fed7aa"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+  <path d="M25 49h14" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+</svg>
