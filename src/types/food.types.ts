@@ -12,6 +12,7 @@ export interface Food {
   tastes: Taste[]; category: FoodCategory; suitableFor: EatingContext[]
   dietary: { vegetarian: boolean; containsBeef: boolean; containsPork: boolean; containsSeafood: boolean }
   ingredients: string[]; tags: string[]
+  restaurant: { name: string; address: string; mapUrl: string }
 }
 export interface RecommendationBreakdown { budget: number | null; time: number | null; taste: number | null; category: number | null; social: number | null }
 export interface RecommendationResult { food: Food; score: number; breakdown: RecommendationBreakdown; reasons: string[] }

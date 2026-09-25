@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
+import type { Locale } from '@/lib/i18n'
 
 type Theme = 'light' | 'dark' | 'system'
 
@@ -11,6 +12,9 @@ interface Toast {
 }
 
 interface UIState {
+  locale: Locale
+  setLocale: (locale: Locale) => void
+
   // Theme
   theme: Theme
   setTheme: (theme: Theme) => void
@@ -37,6 +41,8 @@ export const useUIStore = create<UIState>()(
   devtools(
     persist(
       (set) => ({
+        locale: 'en',
+        setLocale: (locale) => set({ locale }, false, 'ui/setLocale'),
         // Theme
         theme: 'system',
         setTheme: (theme) => set({ theme }, false, 'ui/setTheme'),
@@ -89,8 +95,9 @@ export const useUIStore = create<UIState>()(
       }),
       {
         name: 'ui-storage',
-        // Chỉ persist theme và sidebar collapse state
+        // Chỉ lưu các tùy chọn giao diện bền vững
         partialize: (state) => ({
+          locale: state.locale,
           theme: state.theme,
           isSidebarCollapsed: state.isSidebarCollapsed,
         }),

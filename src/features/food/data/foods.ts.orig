@@ -79,14 +79,14 @@ const foodCatalog: Omit<Food, 'restaurant'>[] = [
 ]
 
 const restaurants = [
-  { name: 'Bếp Nhà Việt', address: '12 Nguyễn Hữu Huân, Hoàn Kiếm, Hà Nội' },
-  { name: 'Góc Phố Quán', address: '88 Nguyễn Khuyến, Đống Đa, Hà Nội' },
-  { name: 'Mộc Kitchen', address: '35 Phan Đình Phùng, Ba Đình, Hà Nội' },
-  { name: 'An Nhiên Food', address: '142 Nguyễn Khánh Toàn, Cầu Giấy, Hà Nội' },
-  { name: 'Bếp Hà Thành', address: '27 Tô Hiệu, Cầu Giấy, Hà Nội' },
-  { name: 'Nhà Hàng Hương Việt', address: '61 Trần Hưng Đạo, Hoàn Kiếm, Hà Nội' },
-  { name: 'Chợ Nhỏ', address: '105 Bạch Mai, Hai Bà Trưng, Hà Nội' },
-  { name: 'Bếp Xanh', address: '49 Nguyễn Thị Định, Thanh Xuân, Hà Nội' },
+  { name: 'Bếp Nhà Việt', address: '12 Nguyễn Thị Minh Khai, Quận 1, TP. Hồ Chí Minh' },
+  { name: 'Góc Phố Quán', address: '88 Võ Văn Tần, Quận 3, TP. Hồ Chí Minh' },
+  { name: 'Mộc Kitchen', address: '35 Nguyễn Văn Tráng, Quận 1, TP. Hồ Chí Minh' },
+  { name: 'An Nhiên Food', address: '142 Phan Xích Long, Phú Nhuận, TP. Hồ Chí Minh' },
+  { name: 'Bếp Sài Thành', address: '27 Nguyễn Gia Trí, Bình Thạnh, TP. Hồ Chí Minh' },
+  { name: 'Nhà Hàng Hương Việt', address: '61 Hồ Tùng Mậu, Quận 1, TP. Hồ Chí Minh' },
+  { name: 'Chợ Nhỏ', address: '105 Trần Hưng Đạo, Quận 5, TP. Hồ Chí Minh' },
+  { name: 'Bếp Xanh', address: '49 Hoa Lan, Phú Nhuận, TP. Hồ Chí Minh' },
 ] as const
 
 export const foods: Food[] = foodCatalog.map((food, index) => {

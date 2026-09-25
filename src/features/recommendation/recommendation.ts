@@ -1,3 +1,4 @@
+import type { Locale } from '@/lib/i18n'
 import type { Food, RecommendationBreakdown, RecommendationResult, UserPreferences } from '@/types/food.types'
 
 const weights = { budget: 30, time: 20, taste: 25, category: 15, social: 10 } as const
@@ -28,7 +29,7 @@ export function calculateTasteScore(food: Food, preferences: UserPreferences) {
   return preferences.tastes.filter((taste) => food.tastes.includes(taste)).length / preferences.tastes.length
 }
 
-export function scoreFood(food: Food, preferences: UserPreferences): RecommendationResult {
+export function scoreFood(food: Food, preferences: UserPreferences, locale: Locale = 'en'): RecommendationResult {
   const breakdown: RecommendationBreakdown = {
     budget: calculateBudgetScore(food.price, preferences.budget),
     time: calculateTimeScore(food.preparationTime, preferences.availableTime),
@@ -41,15 +42,16 @@ export function scoreFood(food: Food, preferences: UserPreferences): Recommendat
   const weightedScore = activeEntries.reduce((total, [key, value]) => total + value * weights[key], 0)
   const score = activeWeight === 0 ? 75 : Math.round((weightedScore / activeWeight) * 100)
   const reasons: string[] = []
-  if (breakdown.budget !== null && breakdown.budget >= 0.8) reasons.push('Fits comfortably within your budget')
-  if (breakdown.time !== null && breakdown.time >= 0.8) reasons.push('Ready within your available time')
-  if (breakdown.taste !== null && breakdown.taste > 0) reasons.push(`Matches your taste for ${preferences.tastes.filter((taste) => food.tastes.includes(taste)).join(' & ')} food`)
-  if (breakdown.category === 1) reasons.push(`Matches your ${food.category.replace('-', ' ')} choice`)
-  if (breakdown.social === 1 && preferences.eatingWith !== 'any') reasons.push(`Great for eating with ${preferences.eatingWith}`)
-  if (reasons.length === 0) reasons.push('A tasty option worth discovering')
+  const vi = locale === 'vi'
+  if (breakdown.budget !== null && breakdown.budget >= 0.8) reasons.push(vi ? 'Phù hợp với ngân sách của bạn' : 'Fits comfortably within your budget')
+  if (breakdown.time !== null && breakdown.time >= 0.8) reasons.push(vi ? 'Sẵn sàng trong thời gian bạn có' : 'Ready within your available time')
+  if (breakdown.taste !== null && breakdown.taste > 0) reasons.push(vi ? 'Hợp với khẩu vị bạn đã chọn' : `Matches your taste for ${preferences.tastes.filter((taste) => food.tastes.includes(taste)).join(' & ')} food`)
+  if (breakdown.category === 1) reasons.push(vi ? 'Đúng loại món bạn đang tìm' : `Matches your ${food.category.replace('-', ' ')} choice`)
+  if (breakdown.social === 1 && preferences.eatingWith !== 'any') reasons.push(vi ? 'Phù hợp với người ăn cùng bạn' : `Great for eating with ${preferences.eatingWith}`)
+  if (reasons.length === 0) reasons.push(vi ? 'Một món ngon đáng để khám phá' : 'A tasty option worth discovering')
   return { food, score, breakdown, reasons }
 }
 
-export function recommendFoods(foods: Food[], preferences: UserPreferences) {
-  return foods.filter((food) => passesDietaryFilters(food, preferences)).map((food) => scoreFood(food, preferences)).sort((a, b) => b.score - a.score || a.food.name.localeCompare(b.food.name))
+export function recommendFoods(foods: Food[], preferences: UserPreferences, locale: Locale = 'en') {
+  return foods.filter((food) => passesDietaryFilters(food, preferences)).map((food) => scoreFood(food, preferences, locale)).sort((a, b) => b.score - a.score || a.food.name.localeCompare(b.food.name))
 }
